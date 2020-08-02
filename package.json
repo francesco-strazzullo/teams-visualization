@@ -1,0 +1,37 @@
+{
+  "name": "teams-visualization",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "parcel build index.html --out-dir server/public",
+    "start": "parcel index.html",
+    "server": "node server/index.js",
+    "deploy": "sh deploy.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francesco-strazzullo/teams-visualization.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/francesco-strazzullo/teams-visualization/issues"
+  },
+  "homepage": "https://github.com/francesco-strazzullo/teams-visualization#readme",
+  "dependencies": {
+    "@weknow/react-bubble-chart-d3": "^1.0.12",
+    "basic-auth": "^2.0.1",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "standard": "^14.3.4"
+  },
+  "browserslist": [
+    "since 2017-06"
+  ]
+}
