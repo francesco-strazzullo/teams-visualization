@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import teams from '../lib/teams'
-import BubbleChart from '@weknow/react-bubble-chart-d3'
+import BubbleChart from './BubbleChart'
 
 export default () => {
   const [data, setTeams] = useState([])
@@ -11,12 +11,16 @@ export default () => {
     })()
   }, [])
 
-  const teamList = data.map(t => {
-    return {
-      label: t.name,
-      value: t.surfers.length
-    }
-  })
+  const teamList = data
+    .map(t => {
+      return {
+        label: t.name,
+        value: t.surfers.length
+      }
+    })
+    .sort((a, b) => {
+      return a.label.localeCompare(b.label)
+    })
 
   const userList = data.reduce((acc, t) => {
     t.surfers.forEach(surfer => {
@@ -32,6 +36,9 @@ export default () => {
     })
     return acc
   }, [])
+    .sort((a, b) => {
+      return a.label.localeCompare(b.label)
+    })
 
   return (
     <div>
