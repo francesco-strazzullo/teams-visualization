@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import renderChart from '../lib/bubbleChart'
+import renderChart from '../lib/bubbleChart/index'
 
 export default class BubbleChart extends Component {
   componentDidMount () {
