@@ -9,6 +9,26 @@ const renderBubbles = (svg, width, nodes, colorFunction, props) => {
     labelFont
   } = props
 
+  const colorFill = d => {
+    if (d.data.payload) {
+      return ''
+    }
+
+    if (d.data.color) {
+      return d.data.color
+    }
+
+    return colorFunction(nodes.indexOf(d))
+  }
+
+  const imageFill = d => {
+    if (d.data.payload) {
+      return `url(#${d.data.payload.id})`
+    }
+
+    return ''
+  }
+
   const bubbleChart = d3.select(svg).append('g')
     .attr('class', 'bubble-chart')
     .attr('transform', function (d) { return 'translate(' + (width * graph.offsetX) + ',' + (width * graph.offsetY) + ')' })
@@ -25,8 +45,9 @@ const renderBubbles = (svg, width, nodes, colorFunction, props) => {
   node.append('circle')
     .attr('id', function (d) { return d.id })
     .attr('r', function (d) { return d.r - (d.r * 0.04) })
-    .style('fill', function (d) { return d.data.color ? d.data.color : colorFunction(nodes.indexOf(d)) })
+    .attr('fill', imageFill)
     .style('z-index', 1)
+    .style('fill', colorFill)
     .on('mouseover', function (d) {
       d3.select(this).attr('r', d.r * 1.04)
     })

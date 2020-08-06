@@ -10,7 +10,7 @@ export default () => {
       setTeams(list)
     })()
   }, [])
-
+  /*
   const teamList = data
     .map(t => {
       return {
@@ -20,17 +20,21 @@ export default () => {
     })
     .sort((a, b) => {
       return a.label.localeCompare(b.label)
-    })
+    }) */
 
   const userList = data.reduce((acc, t) => {
     t.surfers.forEach(surfer => {
-      const existingUser = acc.find(u => u.label === surfer.name)
+      const existingUser = acc.find(u => u.label === surfer.nickname)
       if (existingUser) {
         existingUser.value++
       } else {
         acc.push({
-          label: surfer.name,
-          value: 1
+          label: surfer.nickname,
+          value: 1,
+          payload: {
+            id: surfer.id,
+            image: surfer.image
+          }
         })
       }
     })
@@ -43,13 +47,7 @@ export default () => {
   return (
     <div>
       <BubbleChart
-        width={1000}
-        height={800}
-        data={teamList}
-      />
-      <BubbleChart
-        width={1000}
-        height={800}
+        showLegend={false}
         data={userList}
       />
     </div>

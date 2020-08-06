@@ -45,6 +45,27 @@ const render = (svg, params) => {
   // Pass the data to the pack layout to calculate the distribution.
   const nodes = pack(root).leaves()
 
+  var defs = d3
+    .select(svg)
+    .append('defs')
+
+  const dataWithImages = data.filter(e => Boolean(e.payload))
+  dataWithImages.forEach(element => {
+    defs.append('pattern')
+      .attr('id', element.payload.id.toString())
+      .attr('x', '0%')
+      .attr('y', '0%')
+      .attr('width', '100%')
+      .attr('height', '100%')
+      .attr('viewBox', '0 0 512 512')
+      .append('svg:image')
+      .attr('xlink:href', element.payload.image)
+      .attr('width', 512)
+      .attr('height', 512)
+      .attr('x', '0%')
+      .attr('y', '0%')
+  })
+
   // Call to the function that draw the bubbles.
   renderBubbles(svg, bubblesWidth, nodes, color, params)
   // Call to the function that draw the legend.
