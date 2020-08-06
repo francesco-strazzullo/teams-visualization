@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import teams from '../lib/teams'
 import BubbleChart from './BubbleChart'
+import TeamsChart from './TeamsChart'
 
 const getSurferlist = data => data.reduce((acc, t) => {
   t.surfers.forEach(surfer => {
@@ -36,26 +37,48 @@ const getTeamsList = data => data
   })
 
 export default () => {
+  const [taam, setTeam] = useState()
+  const [loading, setLoading] = useState(true)
   const [data, setTeams] = useState([])
-  const [type, setType] = useState('PEOPLE')
+  const [type, setType] = useState('TEAMS')
+
+  const switchType = type => () => {
+    setType(type)
+  }
 
   useEffect(() => {
     (async () => {
       const list = await teams.list()
       setTeams(list)
+      setLoading(false)
     })()
   }, [])
 
+  console.log(taam)
+
+  if (loading) {
+    return <img src='https://files-ks6o2epzy.vercel.app/' />
+  }
+
   const parsedData = type === 'PEOPLE' ? getSurferlist(data) : getTeamsList(data)
+
+  const chart = type === 'PEOPLE' ? (
+    <BubbleChart
+      showLegend={false}
+      data={parsedData}
+    />
+  ) : (
+    <TeamsChart
+      bubbleClickFun={setTeam}
+      data={data}
+    />
+  )
 
   return (
     <div>
-      <button onClick={() => setType('TEAMS')}>Teams</button>
-      <button onClick={() => setType('PEOPLE')}>Surfers</button>
-      <BubbleChart
-        showLegend={false}
-        data={parsedData}
-      />
+      <button onClick={switchType('TEAMS')}>Teams</button>
+      <button onClick={switchType('PEOPLE')}>Surfers</button>
+      {chart}
     </div>
   )
 }
