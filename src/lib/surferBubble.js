@@ -7,16 +7,12 @@ const renderBubbles = (svg, width, nodes, props) => {
     bubbleClickFun
   } = props
 
-  const surferNodes = nodes
-    .filter(n => Boolean(n.label))
-    .filter(n => Boolean(n.data.surfer))
-
   const bubbleChart = d3.select(svg).append('g')
     .attr('class', 'bubble-chart')
     .attr('transform', function (d) { return 'translate(' + (width * graph.offsetX) + ',' + (width * graph.offsetY) + ')' })
 
   const node = bubbleChart.selectAll('.node')
-    .data(surferNodes)
+    .data(nodes)
     .enter().append('g')
     .attr('class', 'node')
     .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')' })

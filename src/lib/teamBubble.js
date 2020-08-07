@@ -9,9 +9,6 @@ const renderBubbles = (svg, width, nodes, colorFunction, props) => {
     labelFont
   } = props
 
-  const teamNodes = nodes
-    .filter(n => Boolean(n.label))
-
   const colorFill = d => {
     if (d.data.color) {
       return d.data.color
@@ -25,7 +22,7 @@ const renderBubbles = (svg, width, nodes, colorFunction, props) => {
     .attr('transform', function (d) { return 'translate(' + (width * graph.offsetX) + ',' + (width * graph.offsetY) + ')' })
 
   const node = bubbleChart.selectAll('.node')
-    .data(teamNodes)
+    .data(nodes)
     .enter().append('g')
     .attr('class', 'node')
     .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')' })

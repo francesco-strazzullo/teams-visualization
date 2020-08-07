@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 import _ from 'lodash'
-import renderTeamBubble from './teamBubble'
+import renderTeamBubble from '../teamBubble'
 
 const mapHierarchy = data => data
   .map(t => {
@@ -56,8 +56,6 @@ const render = (svg, data, params) => {
 
   const pack = d3.pack()
     .size([width, width])
-
-  console.log(mapHierarchy(data), data)
 
   // Process the data to have a hierarchy structure;
   const root = d3.hierarchy({ children: mapHierarchy(data) })
