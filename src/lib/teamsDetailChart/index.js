@@ -1,18 +1,21 @@
 import * as d3 from 'd3'
 import _ from 'lodash'
-import renderTeamBubble from './teamBubble'
+import renderSurferBubble from './surferBubble'
 
-const mapHierarchy = data => data
-  .map(t => {
+const mapHierarchy = (data, selectedTeam) => {
+  const teamData = data.find(d => d.name === selectedTeam)
+  if (!teamData) {
+    return []
+  }
+
+  return teamData.surfers.map(surfer => {
     return {
-      label: t.name,
-      value: t.surfers.length
+      label: surfer.nickname,
+      value: 1,
+      surfer
     }
   })
-  .sort((a, b) => {
-    return a.label.localeCompare(b.label)
-  })
-
+}
 const createBackgroundDefs = (svg, data) => {
   const defs = d3
     .select(svg)
@@ -44,7 +47,8 @@ const createBackgroundDefs = (svg, data) => {
 const render = (svg, data, params) => {
   const {
     overflow,
-    width
+    width,
+    team
   } = params
 
   svg.innerHTML = ''
@@ -52,15 +56,11 @@ const render = (svg, data, params) => {
     svg.style.overflow = 'visible'
   }
 
-  const color = d3.scaleOrdinal(d3.schemeCategory10)
-
   const pack = d3.pack()
     .size([width, width])
 
-  console.log(mapHierarchy(data), data)
-
   // Process the data to have a hierarchy structure;
-  const root = d3.hierarchy({ children: mapHierarchy(data) })
+  const root = d3.hierarchy({ children: mapHierarchy(data, team) })
     .sum(function (d) { return d.value })
     .sort(function (a, b) { return b.value - a.value })
     .each((d) => {
@@ -74,12 +74,11 @@ const render = (svg, data, params) => {
     })
 
   // Pass the data to the pack layout to calculate the distribution.
-  const nodes = pack(root).leaves()
+  const nodes = pack(root).descendants()
 
   createBackgroundDefs(svg, data)
 
-  renderTeamBubble(svg, width, nodes, color, params)
-  // renderSurferBubble(svg, width, nodes, params)
+  renderSurferBubble(svg, width, nodes, params)
 }
 
 export default render

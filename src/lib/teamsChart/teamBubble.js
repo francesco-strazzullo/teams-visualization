@@ -11,7 +11,6 @@ const renderBubbles = (svg, width, nodes, colorFunction, props) => {
 
   const teamNodes = nodes
     .filter(n => Boolean(n.label))
-    .filter(n => Boolean(n.children))
 
   const colorFill = d => {
     if (d.data.color) {

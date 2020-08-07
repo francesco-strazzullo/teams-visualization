@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import renderChart from '../lib/teamsChart/index'
+import renderChart from '../../lib/teamsDetailChart/index'
 
-export default class TeamsChart extends Component {
+export default class TeamsDetailChartt extends React.Component {
   componentDidMount () {
     this.svg = ReactDOM.findDOMNode(this)
     renderChart(this.svg, this.props.data, this.props)
@@ -31,7 +31,7 @@ export default class TeamsChart extends Component {
   }
 }
 
-TeamsChart.propTypes = {
+TeamsDetailChartt.propTypes = {
   data: PropTypes.arrayOf(PropTypes.any),
   overflow: PropTypes.bool,
   graph: PropTypes.shape({
@@ -63,7 +63,8 @@ TeamsChart.propTypes = {
     weight: PropTypes.string
   })
 }
-TeamsChart.defaultProps = {
+
+TeamsDetailChartt.defaultProps = {
   data: [],
   overflow: false,
   graph: {
