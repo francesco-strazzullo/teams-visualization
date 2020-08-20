@@ -1,16 +1,18 @@
 const fetch = require('node-fetch')
 const { token } = require('./config.json')
 
-const list = () => {
+const list = async () => {
   const headers = new fetch.Headers({
     Authorization: token
   })
 
-  return fetch('https://secret-harbor-63385.herokuapp.com/teams', {
+  const data = await fetch('https://secret-harbor-63385.herokuapp.com/teams', {
     method: 'GET',
     headers,
     mode: 'cors'
   }).then(r => r.json())
+
+  return data.filter(t => t.active)
 }
 
 const getPeople = teamName => {
